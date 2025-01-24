@@ -1,7 +1,7 @@
 package my.bankapp;
 
 public class User extends AbstractUser {
-    private String login;
+    private final String login;
     private String password;
     private Account account;
 
@@ -16,46 +16,40 @@ public class User extends AbstractUser {
         return login;
     }
 
-    private void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
     }
 
     public void changePassword(String password, String passwordConfirm, String passwordCurrent) {
-        if (passwordCurrent.equals(this.password)) {
-            if (password.equals(passwordConfirm)) {
-                this.password = password;
-                System.out.println("New password is set");
-            } else {
-                System.out.println("Password confirmation is incorrect");
-            }
-        } else {
+        if (!passwordCurrent.equals(this.password)) {
             System.out.println("Current password is incorrect");
+            return;
+        }
+
+        if (password.equals(passwordConfirm)) {
+            this.password = password;
+            System.out.println("New password is set");
+        } else {
+            System.out.println("Password confirmation is incorrect");
         }
     }
 
     public void setPassword(String password, String passwordConfirm) {
-        if (this.password == null) {
-            if (password.equals(passwordConfirm)) {
-                this.password = password;
-                System.out.println("New password is set");
-            } else {
-                System.out.println("Password confirmation is incorrect");
-            }
-        } else {
+        if (this.password != null) {
             System.out.println("Password is already set");
+            return;
+        }
+
+        if (password.equals(passwordConfirm)) {
+            this.password = password;
+            System.out.println("New password is set");
+        } else {
+            System.out.println("Password confirmation is incorrect");
         }
     }
 
     public Account getAccount() {
         return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public void createAccount(String name) {

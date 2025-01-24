@@ -20,6 +20,12 @@ public class Account extends AbstractAccount {
         this.accountNumber = accountNumber;
     }
 
+    public void getAccountInfo() {
+        System.out.println("Your account:");
+        System.out.println("Name:" + this.name);
+        System.out.println("Wallet:" + this.wallet);
+    }
+
     public long getWallet() {
         return wallet;
     }
