@@ -1,20 +1,18 @@
 package my.bankapp;
 
+import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 public class AbstractAccount {
-    private static final TreeSet<Long> accountSet = new TreeSet<>();
+    private static final LinkedHashSet<Long> accountSet = new LinkedHashSet<>();
+    private static long lastAccNum = 0;
 
     public AbstractAccount() {
-        long newAccNum = 0;
-        if (!accountSet.isEmpty()) {
-            newAccNum = accountSet.last() + 1;
-        }
-        accountSet.add(newAccNum);
-        System.out.println(getAccountSet().last());
+        accountSet.add(++lastAccNum);
+        System.out.println(lastAccNum);
     }
 
-    public static TreeSet<Long> getAccountSet() {
+    public static LinkedHashSet<Long> getAccountSet() {
         return accountSet;
     }
 }

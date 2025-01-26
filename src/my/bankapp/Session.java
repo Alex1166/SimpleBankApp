@@ -38,7 +38,7 @@ public class Session {
             System.out.println("You are not authorized");
         }
 
-        System.out.println("Are you sure?");
+        System.out.println("Are you sure? (y/n)");
         if (System.console().readLine().equals("y")) {
             System.out.println("Bye, "  + this.user.getLogin());
             this.user = null;
