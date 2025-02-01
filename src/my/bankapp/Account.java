@@ -1,33 +1,29 @@
 package my.bankapp;
 
-public class Account extends AbstractAccount {
-    private long accountNumber;
+import java.util.LinkedHashSet;
+
+public class Account {
+    private final String name;
     private long wallet;
-    private String name;
+    private final long accountNumber;
+    private static long lastAccNum = 0;
+    public static final LinkedHashSet<Long> accountSet = new LinkedHashSet<>();
 
     public Account(String name) {
-        super();
 
+        this.accountNumber = ++lastAccNum;
         this.name = name;
         this.wallet = 0;
-    }
 
-    public long getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(long accountNumber) {
-        this.accountNumber = accountNumber;
+        accountSet.add(lastAccNum);
+        System.out.println("Your account number is : " + this.accountNumber);
     }
 
     public void getAccountInfo() {
         System.out.println("Your account:");
         System.out.println("Name:" + this.name);
         System.out.println("Wallet:" + this.wallet);
-    }
-
-    public long getWallet() {
-        return wallet;
+        System.out.println("Number:" + this.getAccountNumber());
     }
 
     public void addMoney(long money) {
@@ -44,11 +40,7 @@ public class Account extends AbstractAccount {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public long getAccountNumber() {
+        return this.accountNumber;
     }
 }

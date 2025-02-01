@@ -1,15 +1,17 @@
 package my.bankapp;
 
-public class User extends AbstractUser {
+import java.util.HashMap;
+import java.util.Map;
+
+public class User {
     private final String login;
     private String password;
     private Account account;
+    public static Map<String, User> userMap = new HashMap<>();
 
     public User(String login) {
-        super();
-
         this.login = login;
-        AbstractUser.userMap.put(this.login, this);
+        User.userMap.put(login, this);
     }
 
     public String getLogin() {
@@ -34,17 +36,19 @@ public class User extends AbstractUser {
         }
     }
 
-    public void setPassword(String password, String passwordConfirm) {
+    public boolean setPassword(String password, String passwordConfirm) {
         if (this.password != null) {
             System.out.println("Password is already set");
-            return;
+            return false;
         }
 
         if (password.equals(passwordConfirm)) {
             this.password = password;
             System.out.println("New password is set");
+            return true;
         } else {
             System.out.println("Password confirmation is incorrect");
+            return false;
         }
     }
 

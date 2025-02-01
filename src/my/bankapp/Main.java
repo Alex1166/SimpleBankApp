@@ -5,10 +5,11 @@ public class Main {
 
         Session currentSession = new Session();
 
+        System.out.println("Hello. Type 'help' to show all available commands.");
+
         while (true) {
-            System.out.println("Hello. Type 'help' to show all available commands.");
             System.out.println("Enter command:");
-            if (!currentSession.processCommand(System.console().readLine())) {
+            if (!CommandHelper.processCommand(currentSession, System.console().readLine())) {
                 return;
             }
         }
