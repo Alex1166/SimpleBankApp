@@ -1,33 +1,28 @@
 package my.bankapp;
 
 public class AccountHelper {
-    public static void doCreateAccount(User user) {
-        if (user  == null) {
-            System.out.println("You are not authorized");
-            return;
-        }
+    AccountCreateHelper accountCreateHelperInstance = new AccountCreateHelper();
 
-        if (user.getAccount() != null) {
-            System.out.println("You already have an account");
-            return;
-        }
-
-        System.out.println("Enter account name:");
-
-        user.createAccount(System.console().readLine());
+    public boolean createAccount(User user, int accountType) {
+        return accountCreateHelperInstance.createAccount(user, accountType);
     }
 
-    public static void doGetAccountInfo(User user) {
-        if (user == null) {
-            System.out.println("You are not authorized");
-            return;
+    public Account getAccountByNumber(long accountNumber) throws IllegalArgumentException {
+        if (!Account.getAccountMap().containsKey(accountNumber)) {
+            throw new IllegalArgumentException("not found");
         }
+        return Account.getAccountMap().get(accountNumber);
+    }
 
-        if (user.getAccount() == null) {
-            System.out.println("You don't have an account");
-            return;
+    public String getAccountList(User user) {
+        StringBuilder output = new StringBuilder();
+        for (long accountNumber : user.getAccountSet()) {
+            try {
+                output.append(getAccountByNumber(accountNumber).toString());
+            } catch (Exception e) {
+                output.append("Account ").append(accountNumber).append(" - ").append(e.getMessage());
+            }
         }
-
-        user.getAccount().getAccountInfo();
+        return output.toString();
     }
 }

@@ -1,46 +1,37 @@
 package my.bankapp;
 
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Account {
-    private final String name;
-    private long wallet;
+public abstract class Account {
+    protected int wallet;
     private final long accountNumber;
-    private static long lastAccNum = 0;
-    public static final LinkedHashSet<Long> accountSet = new LinkedHashSet<>();
 
-    public Account(String name) {
+    private static long lastAccNum = 0;
+    private static final Map<Long, Account> accountMap = new HashMap<>();
+
+    public Account() {
 
         this.accountNumber = ++lastAccNum;
-        this.name = name;
         this.wallet = 0;
 
-        accountSet.add(lastAccNum);
-        System.out.println("Your account number is : " + this.accountNumber);
-    }
-
-    public void getAccountInfo() {
-        System.out.println("Your account:");
-        System.out.println("Name:" + this.name);
-        System.out.println("Wallet:" + this.wallet);
-        System.out.println("Number:" + this.getAccountNumber());
-    }
-
-    public void addMoney(long money) {
-        this.wallet = this.wallet + money;
-    }
-
-    public boolean subtractMoney(long money) {
-        if (this.wallet < money) {
-            System.out.println("You don't have enough money");
-            return false;
-        } else {
-            this.wallet = this.wallet - money;
-            return true;
-        }
+        accountMap.put(lastAccNum, this);
     }
 
     public long getAccountNumber() {
         return this.accountNumber;
+    }
+
+    public int getWallet() {
+        return this.wallet;
+    }
+
+    @Override
+    public String toString() {
+        return "Account:" + this.getAccountNumber() + "\nWallet:" + this.getWallet() + "\n";
+    }
+
+    public static Map<Long, Account> getAccountMap() {
+        return accountMap;
     }
 }

@@ -1,94 +1,32 @@
 package my.bankapp;
 
-import java.util.Arrays;
-
 public class UserHelper {
 
-    public static void doLogin(Session session) {
-        if (session.getUser() != null) {
-            System.out.println("You are already authorized");
-            return;
-        }
-        System.out.println("Enter login:");
-        String login = System.console().readLine();
+    UserCreateHelper userCreateHelperInst = new UserCreateHelper();
+    UserChangePasswordHelper userChangePasswordHelperInst = new UserChangePasswordHelper();
 
-        if (!User.userMap.containsKey(login)) {
-            System.out.println("User not found");
-            return;
+    public User getUserById(long id) throws IllegalArgumentException {
+        if (!User.getUserIdMap().containsKey(id)) {
+            throw new IllegalArgumentException("User not found");
         }
 
-        System.out.println("Enter password:");
-        String password = Arrays.toString(System.console().readPassword());
-
-        if (User.userMap.get(login).checkPassword(password)) {
-            session.setUser(User.userMap.get(login));
-            System.out.println("Welcome, " + login);
-        } else {
-            System.out.println("Password is incorrect");
-        }
+        return User.getUserIdMap().get(id);
     }
 
-    private static User doCreateNewUser(String login) {
-        if (User.userMap.containsKey(login)) {
-            System.out.println("User already exists");
-            return null;
+    public User getUserByLogin(String login) throws IllegalArgumentException {
+        if (!User.getUserLoginMap().containsKey(login)) {
+            throw new IllegalArgumentException("User not found");
         }
-        return new User(login);
+
+        return getUserById(User.getUserLoginMap().get(login));
     }
 
-    public static void doRegister(Session session) {
-        if (session.getUser() != null) {
-            System.out.println("You are already authorized");
-            return;
-        }
-
-        User newUser;
-
-        System.out.println("Enter login:");
-        String login = System.console().readLine();
-        newUser = doCreateNewUser(login);
-
-        if (newUser == null) {
-            return;
-        }
-
-        System.out.println("Enter new password:");
-        String passwordNew = Arrays.toString(System.console().readPassword());
-        System.out.println("Confirm new password:");
-        String passwordConfirm = Arrays.toString(System.console().readPassword());
-
-        if (newUser.setPassword(passwordNew, passwordConfirm)) {
-            session.setUser(newUser);
-        }
-
+    public boolean createNewUser(String login, String password, String passwordConfirm) throws IllegalArgumentException, IllegalAccessException {
+        return userCreateHelperInst.createNewUser(login, password, passwordConfirm);
     }
 
-    public static void doLogoff(Session session) {
-        if (session.getUser() == null) {
-            System.out.println("You are not authorized");
-        }
-
-        System.out.println("Are you sure? (y/n)");
-        if (System.console().readLine().equals("y")) {
-            System.out.println("Bye, " + session.getUser().getLogin());
-            session.setUser(null);
-        }
-    }
-
-    public static void doChangePassword(User user) {
-        if (user == null) {
-            System.out.println("You are not authorized");
-            return;
-        }
-
-        System.out.println("Enter current password:");
-        String passwordCurrent = Arrays.toString(System.console().readPassword());
-        System.out.println("Enter new password:");
-        String passwordNew = Arrays.toString(System.console().readPassword());
-        System.out.println("Confirm new password:");
-        String passwordConfirm = Arrays.toString(System.console().readPassword());
-
-        user.changePassword(passwordNew, passwordConfirm, passwordCurrent);
+    public boolean changeUserPassword(String login, String passwordCurrent, String passwordNew, String passwordConfirm) throws IllegalArgumentException, IllegalAccessException {
+        return userChangePasswordHelperInst.changeUserPassword(login, passwordCurrent, passwordNew, passwordConfirm);
     }
 
 }

@@ -3,14 +3,36 @@ package my.bankapp;
 public class Main {
     public static void main(String[] args) {
 
-        Session currentSession = new Session();
+        BankApp ba = new BankApp();
+        CommandHelper ch = new CommandHelper();
+        InputOutputHelper ioh = new InputOutputHelper();
 
-        System.out.println("Hello. Type 'help' to show all available commands.");
+        try {
+            ba.registerUser("Alex", "123", "123");
+            ba.createAccount("Alex");
+            ba.createAccount("Alex", 1);
+            ba.registerUser("Bob", "123", "123");
+            ba.createAccount("Bob");
+            ba.putMoney("Alex",1, 500);
+            ba.putMoney("Alex",2, 200);
+            ioh.printResult(ba.getInfo("Alex"));
+            ioh.printResult(ba.getInfo("Bob"));
+            ba.transferMoney("Alex",1, 200, "Bob");
+            ioh.printResult(ba.getInfo("Alex"));
+            ioh.printResult(ba.getInfo("Bob"));
+        } catch (Exception e) {
+            ioh.printResult(e.getMessage());
+        }
 
+        ioh.printStartMessage();
         while (true) {
-            System.out.println("Enter command:");
-            if (!CommandHelper.processCommand(currentSession, System.console().readLine())) {
-                return;
+//            ioh.printEnterMessage();
+            try {
+                if (!ch.processCommand(ba, ioh, ioh.readInput("Enter command:"))) {
+                    return;
+                }
+            } catch (Exception e) {
+                ioh.printResult(e.getMessage());
             }
         }
 
