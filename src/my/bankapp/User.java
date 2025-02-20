@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class User {
+public abstract class User {
     private final String login;
     private final long id;
     private final Set<Long> accountSet;

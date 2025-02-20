@@ -3,7 +3,7 @@ package my.bankapp;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountActive extends Account{
+public abstract class AccountActive extends Account{
 
     private static final Map<Long, AccountActive> accountActiveMap = new HashMap<>();
 

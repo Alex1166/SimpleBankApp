@@ -7,7 +7,7 @@ public class UserCreateHelper {
         if (User.getUserLoginMap().containsKey(login)) {
             throw new IllegalArgumentException("User already exists");
         }
-        newUser = new User(login);
+        newUser = new UserDefault(login);
 
         if (!newUser.setPassword(password, passwordConfirm)) {
             throw new IllegalAccessException("Password confirmation does not match");
