@@ -65,13 +65,14 @@ public class InputOutputHelper {
     public void printHelpMessage() {
         System.out.println("""
                 available commands:\s
-                 whoami - show current user\s
+                 help - show help\s
+                 info - show current user info\s
                  login - authorize in system\s
                  logoff - logoff to switch user\s
                  reg - create new user\s
                  chpwd - change your password\s
                  newacc - create new account\s
-                 myacc - show your account info\s
+                 setdefacc - set account as default to receive money\s
                  put - put money on your account\s
                  send - transfer money to another user\s
                  withdraw - get money from your account""");

@@ -4,8 +4,8 @@ public class Main {
     public static void main(String[] args) {
 
         BankApp ba = new BankApp();
-        CommandHelper ch = new CommandHelper();
         InputOutputHelper ioh = new InputOutputHelper();
+        CommandHelper ch = new CommandHelper(ba, ioh);
 
         try {
             ba.registerUser("Alex", "123", "123");
@@ -28,7 +28,7 @@ public class Main {
         while (true) {
 //            ioh.printEnterMessage();
             try {
-                if (!ch.processCommand(ba, ioh, ioh.readInput("Enter command:"))) {
+                if (!ch.processCommand(ioh.readInput("Enter command:"))) {
                     return;
                 }
             } catch (Exception e) {
