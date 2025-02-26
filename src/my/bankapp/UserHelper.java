@@ -21,11 +21,11 @@ public class UserHelper {
         return getUserById(User.getUserLoginMap().get(login));
     }
 
-    public boolean createNewUser(String login, String password, String passwordConfirm) throws IllegalArgumentException, IllegalAccessException {
+    public boolean createNewUser(String login, String password, String passwordConfirm) throws RuntimeException {
         return userCreateHelperInst.createNewUser(login, password, passwordConfirm);
     }
 
-    public boolean changeUserPassword(String login, String passwordCurrent, String passwordNew, String passwordConfirm) throws IllegalArgumentException, IllegalAccessException {
+    public boolean changeUserPassword(String login, String passwordCurrent, String passwordNew, String passwordConfirm) throws RuntimeException {
         return userChangePasswordHelperInst.changeUserPassword(login, passwordCurrent, passwordNew, passwordConfirm);
     }
 

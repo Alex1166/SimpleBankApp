@@ -10,8 +10,7 @@ public class ShowHelpCommand implements Command {
     }
 
     @Override
-    public boolean process(BankApp ba, InputOutputHelper ioh) {
-        ioh.printHelpMessage();
-        return true;
+    public String process(BankApp ba, InputOutputHelper ioh) {
+        return InputOutputHelper.HELP_MESSAGE;
     }
 }

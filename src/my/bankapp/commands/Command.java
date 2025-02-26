@@ -5,5 +5,5 @@ import my.bankapp.InputOutputHelper;
 
 public interface Command {
     String getCommand();
-    boolean process(BankApp ba, InputOutputHelper ioh);
+    String process(BankApp ba, InputOutputHelper ioh) throws Exception;
 }

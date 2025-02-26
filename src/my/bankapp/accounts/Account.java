@@ -1,4 +1,4 @@
-package my.bankapp;
+package my.bankapp.accounts;
 
 import java.util.HashMap;
 import java.util.Map;

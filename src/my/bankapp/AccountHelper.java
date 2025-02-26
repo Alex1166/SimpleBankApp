@@ -1,9 +1,11 @@
 package my.bankapp;
 
+import my.bankapp.accounts.Account;
+
 public class AccountHelper {
     AccountCreateHelper accountCreateHelperInstance = new AccountCreateHelper();
 
-    public boolean createAccount(User user, int accountType) {
+    public boolean createAccount(User user, int accountType) throws IllegalArgumentException {
         return accountCreateHelperInstance.createAccount(user, accountType);
     }
 

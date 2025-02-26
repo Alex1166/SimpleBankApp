@@ -10,7 +10,7 @@ public class ExitCommand implements Command{
     }
 
     @Override
-    public boolean process(BankApp ba, InputOutputHelper ioh) {
-        return false;
+    public String process(BankApp ba, InputOutputHelper ioh) throws Exception {
+        throw new InterruptedException("Closing app");
     }
 }

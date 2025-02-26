@@ -1,4 +1,4 @@
-package my.bankapp;
+package my.bankapp.accounts;
 
 public class AccountDebit extends AccountActive {
     public AccountDebit() {

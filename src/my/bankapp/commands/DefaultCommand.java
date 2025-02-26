@@ -10,8 +10,7 @@ public class DefaultCommand implements Command{
     }
 
     @Override
-    public boolean process(BankApp ba, InputOutputHelper ioh) {
-        ioh.printResult("Unknown command");
-        return true;
+    public String process(BankApp ba, InputOutputHelper ioh) {
+        return"Unknown command";
     }
 }

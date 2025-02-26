@@ -37,7 +37,7 @@ public class CommandHelper {
         this.commandList.add(new ExitCommand());
     }
 
-    public boolean processCommand(BankApp ba, InputOutputHelper ioh, String input) {
+    public String processCommand(BankApp ba, InputOutputHelper ioh, String input) throws Exception {
 
         return commandList.stream()
                 .filter(command -> command.getCommand().equals(input))

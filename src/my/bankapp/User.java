@@ -2,6 +2,7 @@ package my.bankapp;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,15 +65,19 @@ public abstract class User {
     }
 
     public boolean checkPassword(String password) {
-        return this.password.equals(password);
+        if (this.password.equals(password)) {
+            return true;
+        } else {
+            throw new InputMismatchException("Password is incorrect");
+        }
     }
 
-    public boolean setPassword(String password, String passwordConfirm) throws IllegalAccessException {
+    public boolean setPassword(String password, String passwordConfirm) throws RuntimeException {
         if (password.equals(passwordConfirm)) {
             this.password = password;
             return true;
         } else {
-            throw new IllegalAccessException("Password confirmation does not match");
+            throw new InputMismatchException("Password confirmation does not match");
         }
     }
 

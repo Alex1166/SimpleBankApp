@@ -5,6 +5,24 @@ import java.util.Arrays;
 
 public class InputOutputHelper {
 
+    public static final String SUCCESS_MESSAGE = "The operation completed successfully";
+
+    public static final String START_MESSAGE = "Hello. Type 'help' to show all available commands.";
+
+    public static final String HELP_MESSAGE = """
+                available commands:\s
+                 help - show help\s
+                 info - show current user info\s
+                 login - authorize in system\s
+                 logoff - logoff to switch user\s
+                 reg - create new user\s
+                 chpwd - change your password\s
+                 newacc - create new account\s
+                 setdefacc - set account as default to receive money\s
+                 put - put money on your account\s
+                 send - transfer money to another user\s
+                 withdraw - get money from your account""";
+
     public String readInput(String requestLine) throws IllegalArgumentException {
         printResult(requestLine);
 
@@ -41,12 +59,12 @@ public class InputOutputHelper {
         }
     }
 
-    public String readPassword(String requestLine) throws Exception {
+    public String readPassword(String requestLine) throws IllegalArgumentException {
         printResult(requestLine);
         try {
             return Arrays.toString(System.console().readPassword());
         } catch (IOError e) {
-            throw new Exception("Input is invalid");
+            throw new IllegalArgumentException("Input is invalid");
         }
     }
 
@@ -79,7 +97,9 @@ public class InputOutputHelper {
     }
 
     public void printResult(String input) {
-        System.out.println(input);
+        if (input != null) {
+            System.out.println(input);
+        }
     }
 
 }

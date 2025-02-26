@@ -24,13 +24,14 @@ public class Main {
             ioh.printResult(e.getMessage());
         }
 
-        ioh.printStartMessage();
+        ioh.printResult(InputOutputHelper.START_MESSAGE);
         while (true) {
 //            ioh.printEnterMessage();
             try {
-                if (!ch.processCommand(ba, ioh, ioh.readInput("Enter command:"))) {
-                    return;
-                }
+                ioh.printResult(ch.processCommand(ba, ioh, ioh.readInput("Enter command:")));
+            } catch (InterruptedException e) {
+                ioh.printResult(e.getMessage());
+                return;
             } catch (Exception e) {
                 ioh.printResult(e.getMessage());
             }

@@ -3,25 +3,21 @@ package my.bankapp.commands;
 import my.bankapp.BankApp;
 import my.bankapp.InputOutputHelper;
 
-public class RegisterUserCommand implements Command{
+public class RegisterUserCommand implements Command {
     @Override
     public String getCommand() {
         return "reg";
     }
 
     @Override
-    public boolean process(BankApp ba, InputOutputHelper ioh) {
-        try {
-            String login = ioh.readInput("Enter login:");
-            if (ba.registerUser(login,
-                    ioh.readPassword("Enter password:"),
-                    ioh.readPassword("Confirm password:"))) {
-                ioh.printResult("User " + login + " is created");
-            }
-        } catch (Exception e) {
-            ioh.printResult(e.getMessage());
-            return false;
+    public String process(BankApp ba, InputOutputHelper ioh) {
+        String login = ioh.readInput("Enter login:");
+        if (ba.registerUser(login,
+                ioh.readPassword("Enter password:"),
+                ioh.readPassword("Confirm password:"))) {
+            return "User " + login + " is created";
+        } else {
+            throw new IllegalArgumentException("Registration failed");
         }
-        return true;
     }
 }

@@ -1,5 +1,7 @@
 package my.bankapp;
 
+import my.bankapp.accounts.AccountActive;
+
 public class MoneyHelper {
     public boolean transferMoney(AccountActive account, AccountActive recipientAccount, int money) throws IllegalArgumentException {
         if (withdrawMoney(account, money)) {

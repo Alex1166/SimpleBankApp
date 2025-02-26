@@ -10,8 +10,7 @@ public class WithdrawMoneyCommand implements Command{
     }
 
     @Override
-    public boolean process(BankApp ba, InputOutputHelper ioh) {
-        try {
+    public String process(BankApp ba, InputOutputHelper ioh) {
             String login = ioh.readInput("Enter login:");
 
             ioh.printResult(ba.getInfo(login));
@@ -21,12 +20,9 @@ public class WithdrawMoneyCommand implements Command{
             int money = ioh.readPositiveIntegerInput("Enter money to withdraw:");
 
             if (ba.withdrawMoney(login, accountNumber, money)) {
-                ioh.printSuccessMessage();
+                return InputOutputHelper.SUCCESS_MESSAGE;
+            } else {
+                throw new IllegalArgumentException("Money transfer aborted");
             }
-        } catch (Exception e) {
-            ioh.printResult(e.getMessage());
-            return false;
-        }
-        return true;
     }
 }
