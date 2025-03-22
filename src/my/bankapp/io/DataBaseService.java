@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.stream.Stream;
 
 public class DataBaseService implements DaoBank {
@@ -264,9 +265,19 @@ public class DataBaseService implements DaoBank {
             connection = getConnection();
             connection.setAutoCommit(false); // Start transaction
 
-            String selectSql = "SELECT money FROM accounts WHERE id=? FOR UPDATE;";
+            String sql = "SET LOCAL lock_timeout = '15s'";
 
-            try (PreparedStatement statement = connection.prepareStatement(selectSql)) {
+            try (Statement statement = connection.createStatement()) {
+
+                statement.execute(sql);
+
+            } catch (SQLException sqle) {
+                throw new RuntimeException("Unable to perform an operation", sqle);
+            }
+
+            sql = "SELECT money FROM accounts WHERE id=? FOR UPDATE;";
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
                 statement.setLong(1, accountId);
 
@@ -279,9 +290,9 @@ public class DataBaseService implements DaoBank {
                 throw new RuntimeException("Unable to get account wallet", sqle);
             }
 
-            String updateSql = "UPDATE accounts SET money=? WHERE id=?;";
+            sql = "UPDATE accounts SET money=? WHERE id=?;";
 
-            try (PreparedStatement statement = connection.prepareStatement(updateSql)) {
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setBigDecimal(1, function.applyAsMoney(currentWallet, money).getValue());
                 statement.setLong(2, accountId);
 
