@@ -45,7 +45,7 @@ public class DataBaseService implements DaoBank {
                      "WHERE " + field + " = ? " +
                      "LIMIT 1";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             if (userLogin == null && userId != -1) {
                 statement.setLong(1, userId);
@@ -80,7 +80,7 @@ public class DataBaseService implements DaoBank {
         long userId = -1;
         String sql = "INSERT INTO users(login) VALUES (?) ON CONFLICT DO NOTHING RETURNING id;";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, login);
 
@@ -103,17 +103,15 @@ public class DataBaseService implements DaoBank {
     public boolean setUserDefaultAccount(long userId, long accountId) throws RuntimeException {
 
         Connection connection = null;
-        Money currentWallet = null;
         RuntimeException mainException = null;
 
         try {
             connection = getConnection();
             connection.setAutoCommit(false); // Start transaction
 
-//            String selectSql = "SELECT money FROM accounts WHERE id=? FOR UPDATE;";
             String sql = "UPDATE accounts SET is_default = FALSE WHERE user_id = ? AND is_default = TRUE;";
 
-            try (PreparedStatement statement = connection.prepareStatement(sql);) {
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, userId);
 
                 statement.executeUpdate();
@@ -127,7 +125,7 @@ public class DataBaseService implements DaoBank {
 
             sql = "UPDATE accounts SET is_default = TRUE WHERE user_id = ? AND id = ?;";
 
-            try (PreparedStatement statement = connection.prepareStatement(sql);) {
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, userId);
                 statement.setLong(2, accountId);
 
@@ -180,7 +178,7 @@ public class DataBaseService implements DaoBank {
 
         String sql = "SELECT id, type, money FROM accounts WHERE user_id = ?";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, userId);
 
@@ -202,7 +200,7 @@ public class DataBaseService implements DaoBank {
         Account account = null;
         String sql = "SELECT id, type, money FROM accounts WHERE id = ? LIMIT 1";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, accountId);
 
@@ -231,7 +229,7 @@ public class DataBaseService implements DaoBank {
                     RETURNING id;
                 """;
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, userId);
             statement.setInt(2, accountType);
@@ -268,7 +266,7 @@ public class DataBaseService implements DaoBank {
 
             String selectSql = "SELECT money FROM accounts WHERE id=? FOR UPDATE;";
 
-            try (PreparedStatement statement = connection.prepareStatement(selectSql);) {
+            try (PreparedStatement statement = connection.prepareStatement(selectSql)) {
 
                 statement.setLong(1, accountId);
 
@@ -283,7 +281,7 @@ public class DataBaseService implements DaoBank {
 
             String updateSql = "UPDATE accounts SET money=? WHERE id=?;";
 
-            try (PreparedStatement statement = connection.prepareStatement(updateSql);) {
+            try (PreparedStatement statement = connection.prepareStatement(updateSql)) {
                 statement.setBigDecimal(1, function.applyAsMoney(currentWallet, money).getValue());
                 statement.setLong(2, accountId);
 
