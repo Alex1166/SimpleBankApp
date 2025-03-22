@@ -1,4 +1,4 @@
-package my.bankapp.helpers;
+package my.bankapp.services;
 
 import my.bankapp.io.DaoBank;
 import my.bankapp.model.Account;

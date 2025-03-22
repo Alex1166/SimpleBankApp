@@ -1,8 +1,8 @@
 package my.bankapp;
 
-import my.bankapp.helpers.AccountService;
-import my.bankapp.helpers.MoneyService;
-import my.bankapp.helpers.UserService;
+import my.bankapp.services.AccountService;
+import my.bankapp.services.MoneyService;
+import my.bankapp.services.UserService;
 import my.bankapp.io.DaoBank;
 import my.bankapp.model.Account;
 import my.bankapp.model.User;

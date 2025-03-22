@@ -1,7 +1,7 @@
 package my.bankapp.commands;
 
 import my.bankapp.BankApp;
-import my.bankapp.io.InputOutputHelper;
+import my.bankapp.io.InputOutputService;
 
 public class TransferMoneyCommand implements Command {
     @Override
@@ -10,7 +10,7 @@ public class TransferMoneyCommand implements Command {
     }
 
     @Override
-    public String process(BankApp ba, InputOutputHelper ioh) throws RuntimeException {
+    public String process(BankApp ba, InputOutputService ioh) throws RuntimeException {
         String login = ioh.readInput("Enter login:");
 
         ioh.printResult(ba.getInfo(login));
@@ -22,7 +22,7 @@ public class TransferMoneyCommand implements Command {
         String money = ioh.readInput("Enter money to transfer:");
 
         if (ba.transferMoney(login, accountNumber, money, recipient)) {
-            return InputOutputHelper.SUCCESS_MESSAGE;
+            return InputOutputService.SUCCESS_MESSAGE;
         } else {
             throw new IllegalArgumentException("Money transfer aborted");
         }

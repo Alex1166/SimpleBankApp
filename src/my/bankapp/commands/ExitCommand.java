@@ -1,7 +1,7 @@
 package my.bankapp.commands;
 
 import my.bankapp.BankApp;
-import my.bankapp.io.InputOutputHelper;
+import my.bankapp.io.InputOutputService;
 
 public class ExitCommand implements Command{
     @Override
@@ -10,7 +10,7 @@ public class ExitCommand implements Command{
     }
 
     @Override
-    public String process(BankApp ba, InputOutputHelper ioh) throws Exception {
+    public String process(BankApp ba, InputOutputService ioh) throws Exception {
         throw new InterruptedException("Closing app");
     }
 }

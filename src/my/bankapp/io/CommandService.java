@@ -16,19 +16,11 @@ import my.bankapp.commands.WithdrawMoneyCommand;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandHelper {
+public class CommandService {
 
-//    List<Command> commandList = new ArrayList<>();
     Map<String, Command> commandMap = new HashMap<>();
 
-    public CommandHelper() {
-//        this.commandList.add(new ShowHelpCommand());
-//        this.commandList.add(new ShowInfoCommand());
-//        this.commandList.add(new CreateNewAccountCommand());
-//        this.commandList.add(new PutMoneyCommand());
-//        this.commandList.add(new SetDefaultAccountCommand());
-//        this.commandList.add(new TransferMoneyCommand());
-//        this.commandList.add(new WithdrawMoneyCommand());
+    public CommandService() {
         this.commandMap.put("help", new ShowHelpCommand());
         this.commandMap.put("info", new ShowInfoCommand());
         this.commandMap.put("register", new RegisterUserCommand());
@@ -38,32 +30,10 @@ public class CommandHelper {
         this.commandMap.put("put", new PutMoneyCommand());
         this.commandMap.put("setdefacc", new SetDefaultAccountCommand());
         this.commandMap.put("exit", new ExitCommand());
-
-//        this.commandList.add(new ChangePasswordCommand());
-//        this.commandList.add(new RegisterUserCommand());
-//        this.commandList.add(new LoginUserCommand());
-//        this.commandList.add(new LogoffUserCommand());
-
-//        this.commandList.add(new ExitCommand());
         this.commandMap.put("default", new DefaultCommand());
     }
 
-    public String processCommand(BankApp ba, InputOutputHelper ioh, String input) throws Exception {
-
+    public String processCommand(BankApp ba, InputOutputService ioh, String input) throws Exception {
         return commandMap.getOrDefault(input, commandMap.get("default")).process(ba, ioh);
-
-//        return commandList.stream()
-//                .filter(command -> command.getCommand().equals(input))
-//                .findFirst()
-//                .orElse(new DefaultCommand())
-//                .process(ba, ioh);
-
-//        for (Command command : commandList) {
-//            if (command.getCommand().equals(input)) {
-//                return command.process(ba, ioh);
-//            }
-//        }
-//
-//        return new DefaultCommand().process(ba, ioh);
     }
 }

@@ -1,7 +1,7 @@
 package my.bankapp.io;
 
-import my.bankapp.helpers.MoneyService;
-import my.bankapp.helpers.MoneyOperationFunction;
+import my.bankapp.services.MoneyService;
+import my.bankapp.services.MoneyOperationFunction;
 import my.bankapp.model.Account;
 import my.bankapp.model.Money;
 import my.bankapp.model.User;

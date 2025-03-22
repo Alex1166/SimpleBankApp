@@ -1,7 +1,7 @@
 package my.bankapp.commands;
 
 import my.bankapp.BankApp;
-import my.bankapp.io.InputOutputHelper;
+import my.bankapp.io.InputOutputService;
 
 public class DefaultCommand implements Command{
     @Override
@@ -10,7 +10,7 @@ public class DefaultCommand implements Command{
     }
 
     @Override
-    public String process(BankApp ba, InputOutputHelper ioh) {
+    public String process(BankApp ba, InputOutputService ioh) {
         return"Unknown command";
     }
 }

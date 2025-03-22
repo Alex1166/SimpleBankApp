@@ -1,7 +1,7 @@
 package my.bankapp.commands;
 
 import my.bankapp.BankApp;
-import my.bankapp.io.InputOutputHelper;
+import my.bankapp.io.InputOutputService;
 
 public class RegisterUserCommand implements Command {
     @Override
@@ -10,7 +10,7 @@ public class RegisterUserCommand implements Command {
     }
 
     @Override
-    public String process(BankApp ba, InputOutputHelper ioh) throws RuntimeException {
+    public String process(BankApp ba, InputOutputService ioh) throws RuntimeException {
         String login = ioh.readInput("Enter login:");
         if (ba.registerUser(login)) {
             return "User " + login + " is created";
