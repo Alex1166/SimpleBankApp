@@ -1,7 +1,7 @@
 package my.bankapp.commands;
 
 import my.bankapp.BankApp;
-import my.bankapp.InputOutputHelper;
+import my.bankapp.io.InputOutputHelper;
 
 public class LogoffUserCommand implements Command {
     @Override

@@ -1,7 +1,7 @@
 package my.bankapp.commands;
 
 import my.bankapp.BankApp;
-import my.bankapp.InputOutputHelper;
+import my.bankapp.io.InputOutputHelper;
 
 public class SetDefaultAccountCommand implements Command {
     @Override
@@ -10,7 +10,7 @@ public class SetDefaultAccountCommand implements Command {
     }
 
     @Override
-    public String process(BankApp ba, InputOutputHelper ioh) {
+    public String process(BankApp ba, InputOutputHelper ioh) throws RuntimeException {
         String login = ioh.readInput("Enter login:");
 
         ioh.printResult(ba.getInfo(login));

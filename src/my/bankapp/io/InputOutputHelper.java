@@ -1,7 +1,9 @@
-package my.bankapp;
+package my.bankapp.io;
 
+import java.io.Console;
 import java.io.IOError;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class InputOutputHelper {
 
@@ -13,20 +15,33 @@ public class InputOutputHelper {
                 available commands:\s
                  help - show help\s
                  info - show current user info\s
-                 login - authorize in system\s
-                 logoff - logoff to switch user\s
                  reg - create new user\s
-                 chpwd - change your password\s
                  newacc - create new account\s
                  setdefacc - set account as default to receive money\s
                  put - put money on your account\s
                  send - transfer money to another user\s
                  withdraw - get money from your account""";
 
+//    public static final String HELP_MESSAGE = """
+//                available commands:\s
+//                 help - show help\s
+//                 info - show current user info\s
+//                 login - authorize in system\s
+//                 logoff - logoff to switch user\s
+//                 reg - create new user\s
+//                 chpwd - change your password\s
+//                 newacc - create new account\s
+//                 setdefacc - set account as default to receive money\s
+//                 put - put money on your account\s
+//                 send - transfer money to another user\s
+//                 withdraw - get money from your account""";
+
     public String readInput(String requestLine) throws IllegalArgumentException {
         printResult(requestLine);
 
-        String s = System.console().readLine();
+//        String s = System.console().readLine();
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.next();
 
         if (s == null) {
             throw new IllegalArgumentException("Input is invalid");

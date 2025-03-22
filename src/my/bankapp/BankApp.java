@@ -1,23 +1,32 @@
 package my.bankapp;
 
-import my.bankapp.accounts.AccountActive;
+import my.bankapp.helpers.AccountService;
+import my.bankapp.helpers.MoneyService;
+import my.bankapp.helpers.UserService;
+import my.bankapp.io.DaoBank;
+import my.bankapp.io.DataBaseCredentials;
+import my.bankapp.io.DataBaseService;
+import my.bankapp.model.Account;
+import my.bankapp.model.User;
+
+import java.util.stream.Stream;
 
 public class BankApp {
 
-    private final UserHelper userHelperInst;
-    private final AccountHelper accountHelperInst;
-    private final AccountActiveHelper accountActiveHelperInst;
-    private final MoneyHelper moneyHelperInst;
+    private final UserService userServiceInst;
+    private final AccountService accountServiceInst;
+    private final MoneyService moneyServiceInst;
+    private final DaoBank dataBaseServiceInst;
 
-    public BankApp() {
-        this.userHelperInst = new UserHelper();
-        this.accountHelperInst = new AccountHelper();
-        this.accountActiveHelperInst = new AccountActiveHelper();
-        this.moneyHelperInst = new MoneyHelper();
+    public BankApp(DaoBank dataBaseServiceInst) {
+        this.userServiceInst = new UserService();
+        this.accountServiceInst = new AccountService();
+        this.moneyServiceInst = new MoneyService();
+        this.dataBaseServiceInst = dataBaseServiceInst;
     }
 
     public boolean loginUser(String login, String password) throws RuntimeException {
-        User user = userHelperInst.getUserByLogin(login);
+        User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);
         return user.checkPassword(password);
     }
 
@@ -26,7 +35,7 @@ public class BankApp {
     }
 
     public boolean registerUser(String login, String password, String passwordConfirm) throws RuntimeException {
-        return userHelperInst.createNewUser(login, password, passwordConfirm);
+        return userServiceInst.createNewUser(login, password, passwordConfirm, dataBaseServiceInst);
     }
 
     public boolean createAccount(String login) throws RuntimeException {
@@ -34,61 +43,64 @@ public class BankApp {
     }
 
     public boolean createAccount(String login, int accountType) throws RuntimeException {
-        User user = userHelperInst.getUserByLogin(login);
-        return accountHelperInst.createAccount(user, accountType);
+        User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);
+        return accountServiceInst.createAccount(user, accountType, dataBaseServiceInst);
     }
 
-    public boolean putMoney(String login, long accountNumber, int money) throws RuntimeException {
+    public boolean putMoney(String login, long accountNumber, String money) throws RuntimeException {
         if (checkUserHasAccount(login, accountNumber)) {
-            AccountActive account = accountActiveHelperInst.getAccountByNumber(accountNumber);
-            return moneyHelperInst.putMoney(account, money);
+            Account account = accountServiceInst.getAccountById(accountNumber, dataBaseServiceInst);
+            return moneyServiceInst.putMoney(account, money, dataBaseServiceInst);
         }
         return false;
     }
 
-    public boolean withdrawMoney(String login, long accountNumber, int money) throws RuntimeException {
+    public boolean withdrawMoney(String login, long accountNumber, String money) throws RuntimeException {
         if (checkUserHasAccount(login, accountNumber)) {
-            AccountActive account = accountActiveHelperInst.getAccountByNumber(accountNumber);
-            return moneyHelperInst.withdrawMoney(account, money);
+            Account account = accountServiceInst.getAccountById(accountNumber, dataBaseServiceInst);
+            return moneyServiceInst.withdrawMoney(account, money, dataBaseServiceInst);
         }
         return false;
     }
 
-    public boolean transferMoney(String login, long accountNumber, int money, String recipient) throws RuntimeException {
+    public boolean transferMoney(String login, long accountNumber, String money, String recipient) throws RuntimeException {
         if (checkUserHasAccount(login, accountNumber)) {
-            AccountActive account = accountActiveHelperInst.getAccountByNumber(accountNumber);
+            Account account = accountServiceInst.getAccountById(accountNumber, dataBaseServiceInst);
 
-            AccountActive recipientAccount = accountActiveHelperInst.getAccountByNumber(userHelperInst.getUserByLogin(recipient).getDefaultAccountNumber());
-            return moneyHelperInst.transferMoney(account, recipientAccount, money);
+            Account recipientAccount = accountServiceInst.getAccountById(
+                    userServiceInst.getUserByLogin(recipient, dataBaseServiceInst).getDefaultAccountNumber(), dataBaseServiceInst);
+            return moneyServiceInst.transferMoney(account, recipientAccount, money, dataBaseServiceInst);
         }
         return false;
     }
 
-    public boolean changePasswordUser(String login, String passwordCurrent, String passwordNew, String passwordConfirm) throws RuntimeException {
-        return userHelperInst.changeUserPassword(login, passwordCurrent, passwordNew, passwordConfirm);
-    }
+//    public boolean changePasswordUser(String login, String passwordCurrent, String passwordNew, String passwordConfirm) throws RuntimeException {
+//        return userHelperInst.changeUserPassword(login, passwordCurrent, passwordNew, passwordConfirm);
+//    }
 
     public boolean setUserDefaultAccount(String login, long accountNumber) throws RuntimeException {
-        User user = userHelperInst.getUserByLogin(login);
-        return user.setDefaultAccountNumber(accountNumber);
+        User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);
+        return userServiceInst.setDefaultAccountNumber(user.getId(), accountNumber, dataBaseServiceInst);
     }
 
     public String getInfo(String login) throws RuntimeException {
         StringBuilder output = new StringBuilder();
 
-        User user = userHelperInst.getUserByLogin(login);
+        User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);
 
         output.append(user.toString());
-        output.append(accountHelperInst.getAccountList(user));
+        output.append(accountServiceInst.getAccountList(user, dataBaseServiceInst));
 
         return output.toString();
     }
 
     public boolean checkUserHasAccount(String login, long accountNumber) throws RuntimeException {
-        User user = userHelperInst.getUserByLogin(login);
-        if (!user.getAccountSet().contains(accountNumber)) {
+        User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);
+        Stream<Account> accountStream = dataBaseServiceInst.getAccountsByUser(user.getId());
+        if (accountStream.anyMatch(account -> account.getAccountId() == accountNumber)) {
+            return true;
+        } else {
             throw new RuntimeException("Invalid account number");
         }
-        return true;
     }
 }
