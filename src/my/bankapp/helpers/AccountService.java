@@ -8,9 +8,7 @@ import my.bankapp.model.Account;
 public class AccountService {
 
     public boolean createAccount(User user, int accountType, DaoBank dbh) throws IllegalArgumentException {
-        dbh.createNewAccount(user.getId(), accountType, new Money("0"));
-
-        return true;
+        return dbh.createNewAccount(user.getId(), accountType, new Money("0"));
     }
 
     public Account getAccountById(long accountId, DaoBank dbh) throws IllegalArgumentException {

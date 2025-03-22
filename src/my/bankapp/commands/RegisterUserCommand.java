@@ -12,9 +12,7 @@ public class RegisterUserCommand implements Command {
     @Override
     public String process(BankApp ba, InputOutputHelper ioh) throws RuntimeException {
         String login = ioh.readInput("Enter login:");
-        if (ba.registerUser(login,
-                ioh.readInput("Enter password:"),
-                ioh.readInput("Confirm password:"))) {
+        if (ba.registerUser(login)) {
             return "User " + login + " is created";
         } else {
             throw new IllegalArgumentException("Registration failed");

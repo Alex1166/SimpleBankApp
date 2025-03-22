@@ -6,39 +6,20 @@ import java.util.Objects;
 public class Money implements Comparable<Money> {
     BigDecimal value;
 
-    public Money() {
-        this("0");
-    }
-
-    public Money(String value) {
-        this.setValue(value);
+    public Money(String value) throws NumberFormatException {
+        this(new BigDecimal(value));
     }
 
     public Money(BigDecimal value) {
-        this.setValue(value);
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        BigDecimal bigValue;
-        try {
-            bigValue = new BigDecimal(value);
-        } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException(String.format("Invalid amount of money was passed: %s", value), nfe);
-        }
-
-        this.setValue(bigValue);
-    }
-
-    public void setValue(BigDecimal value) {
         if (value.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException(String.format("Amount of money must not be less than zero. %s provided", value));
         }
 
         this.value = value;
+    }
+
+    public BigDecimal getValue() {
+        return value;
     }
 
     public Money addValue(Money value) {

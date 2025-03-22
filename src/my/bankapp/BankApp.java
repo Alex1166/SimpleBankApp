@@ -4,8 +4,6 @@ import my.bankapp.helpers.AccountService;
 import my.bankapp.helpers.MoneyService;
 import my.bankapp.helpers.UserService;
 import my.bankapp.io.DaoBank;
-import my.bankapp.io.DataBaseCredentials;
-import my.bankapp.io.DataBaseService;
 import my.bankapp.model.Account;
 import my.bankapp.model.User;
 
@@ -25,17 +23,8 @@ public class BankApp {
         this.dataBaseServiceInst = dataBaseServiceInst;
     }
 
-    public boolean loginUser(String login, String password) throws RuntimeException {
-        User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);
-        return user.checkPassword(password);
-    }
-
-    public boolean logoffUser() {
-        return true;
-    }
-
-    public boolean registerUser(String login, String password, String passwordConfirm) throws RuntimeException {
-        return userServiceInst.createNewUser(login, password, passwordConfirm, dataBaseServiceInst);
+    public boolean registerUser(String login) throws RuntimeException {
+        return userServiceInst.createNewUser(login, dataBaseServiceInst);
     }
 
     public boolean createAccount(String login) throws RuntimeException {
@@ -73,10 +62,6 @@ public class BankApp {
         }
         return false;
     }
-
-//    public boolean changePasswordUser(String login, String passwordCurrent, String passwordNew, String passwordConfirm) throws RuntimeException {
-//        return userHelperInst.changeUserPassword(login, passwordCurrent, passwordNew, passwordConfirm);
-//    }
 
     public boolean setUserDefaultAccount(String login, long accountNumber) throws RuntimeException {
         User user = userServiceInst.getUserByLogin(login, dataBaseServiceInst);

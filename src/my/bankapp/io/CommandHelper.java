@@ -1,13 +1,10 @@
 package my.bankapp.io;
 
 import my.bankapp.BankApp;
-import my.bankapp.commands.ChangePasswordCommand;
 import my.bankapp.commands.Command;
 import my.bankapp.commands.CreateNewAccountCommand;
 import my.bankapp.commands.DefaultCommand;
 import my.bankapp.commands.ExitCommand;
-import my.bankapp.commands.LoginUserCommand;
-import my.bankapp.commands.LogoffUserCommand;
 import my.bankapp.commands.PutMoneyCommand;
 import my.bankapp.commands.RegisterUserCommand;
 import my.bankapp.commands.SetDefaultAccountCommand;
@@ -16,9 +13,7 @@ import my.bankapp.commands.ShowInfoCommand;
 import my.bankapp.commands.TransferMoneyCommand;
 import my.bankapp.commands.WithdrawMoneyCommand;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CommandHelper {
